@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>雨燕直播 · 日常信息卡片</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: linear-gradient(145deg, #fce4c8 0%, #fcd5b0 50%, #f7c59f 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem 1rem;
+        }
+
+        .page-wrapper {
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        /* 主视觉卡片 — 暖色渐变 + 柔和阴影 */
+        .hero-card {
+            background: #fffaf3;
+            border-radius: 40px;
+            box-shadow: 0 12px 32px rgba(180, 120, 70, 0.18);
+            padding: 2.5rem 2.2rem;
+            margin-bottom: 2.2rem;
+            text-align: center;
+            transition: box-shadow 0.2s;
+        }
+
+        .hero-card h1 {
+            font-size: 2.6rem;
+            font-weight: 600;
+            color: #693f1d;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.6rem;
+            line-height: 1.2;
+        }
+
+        .hero-card .subhead {
+            font-size: 1.1rem;
+            color: #8a6b4f;
+            max-width: 640px;
+            margin: 0 auto 1.5rem auto;
+            line-height: 1.6;
+            padding: 0 0.5rem;
+        }
+
+        .hero-card .tagline {
+            display: inline-block;
+            background: #e8d5bf;
+            color: #4c351f;
+            padding: 0.4rem 1.6rem;
+            border-radius: 60px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            letter-spacing: 0.4px;
+        }
+
+        /* 用途卡片 —— 三列信息网格 */
+        .purpose-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.8rem;
+            margin-bottom: 2.2rem;
+        }
+
+        .purpose-card {
+            background: #fffaf3;
+            border-radius: 28px;
+            padding: 1.8rem 1.5rem 2rem;
+            box-shadow: 0 6px 20px rgba(140, 95, 55, 0.10);
+            transition: transform 0.15s;
+        }
+
+        .purpose-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .purpose-card .card-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            display: inline-block;
+        }
+
+        .purpose-card h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #553e2a;
+            margin-bottom: 0.5rem;
+        }
+
+        .purpose-card p {
+            color: #5c4837;
+            font-size: 0.98rem;
+            line-height: 1.6;
+        }
+
+        /* 适合人群卡片 — 双栏布局 */
+        .audience-section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.8rem;
+            margin-bottom: 2.2rem;
+        }
+
+        .audience-card {
+            flex: 1 1 280px;
+            background: #fffaf3;
+            border-radius: 28px;
+            padding: 1.8rem 1.6rem 2rem;
+            box-shadow: 0 6px 20px rgba(140, 95, 55, 0.10);
+        }
+
+        .audience-card h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #553e2a;
+            margin-bottom: 1rem;
+            border-left: 4px solid #dbb594;
+            padding-left: 0.8rem;
+        }
+
+        .audience-card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .audience-card li {
+            padding: 0.4rem 0;
+            color: #4f3e2f;
+            font-size: 0.98rem;
+            line-height: 1.5;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+
+        .audience-card li::before {
+            content: "·";
+            color: #b8865b;
+            font-weight: 700;
+            font-size: 1.2rem;
+            line-height: 1;
+        }
+
+        /* 自然链接段落（卡片式嵌入） */
+        .link-paragraph-card {
+            background: #fffaf3;
+            border-radius: 28px;
+            padding: 1.8rem 2rem 2rem;
+            box-shadow: 0 6px 20px rgba(140, 95, 55, 0.10);
+            margin-bottom: 2.2rem;
+            font-size: 1rem;
+            line-height: 1.7;
+            color: #3f2f1f;
+        }
+
+        .link-paragraph-card a {
+            color: #b55f2d;
+            background: #f6ede5;
+            padding: 0.15rem 0.4rem;
+            border-radius: 14px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .link-paragraph-card a:hover {
+            background: #dec3aa;
+            color: #4d2f18;
+        }
+
+        .link-paragraph-card strong {
+            color: #5f3e26;
+        }
+
+        /* 提示 / FAQ 摘要卡片 */
+        .tips-faq {
+            background: #fffaf3;
+            border-radius: 28px;
+            padding: 1.8rem 2rem 2rem;
+            box-shadow: 0 6px 20px rgba(140, 95, 55, 0.10);
+            margin-bottom: 2.2rem;
+        }
+
+        .tips-faq h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #553e2a;
+            margin-bottom: 1rem;
+        }
+
+        .faq-item {
+            padding: 0.6rem 0;
+            border-bottom: 1px solid #eddccd;
+        }
+
+        .faq-item:last-child {
+            border-bottom: none;
+        }
+
+        .faq-item .q {
+            font-weight: 600;
+            color: #4e3825;
+            font-size: 1rem;
+        }
+
+        .faq-item .a {
+            color: #5e4a3a;
+            font-size: 0.95rem;
+            margin-top: 0.2rem;
+            line-height: 1.5;
+        }
+
+        .faq-item .a a {
+            color: #b55f2d;
+            background: #f3e7dd;
+            padding: 0.1rem 0.35rem;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .faq-item .a a:hover {
+            background: #dbb594;
+        }
+
+        /* 底部 */
+        .footer-note {
+            text-align: center;
+            color: #6f533d;
+            font-size: 0.85rem;
+            padding: 1.2rem 0 0.5rem;
+            opacity: 0.75;
+        }
+
+        /* 响应式微调 */
+        @media (max-width: 640px) {
+            body {
+                padding: 1rem 0.8rem;
+            }
+            .hero-card h1 {
+                font-size: 2rem;
+            }
+            .hero-card {
+                padding: 1.8rem 1.2rem;
+            }
+            .purpose-grid {
+                gap: 1.2rem;
+            }
+            .purpose-card,
+            .audience-card,
+            .link-paragraph-card,
+            .tips-faq {
+                padding: 1.4rem 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+        <!-- 主视觉 Hero -->
+        <div class="hero-card">
+            <h1>雨燕直播 · 信息笔记</h1>
+            <p class="subhead">
+                日常查询、对照阅读、延伸查找 —— 把常用资源整理成方便翻阅的卡片，
+                每一处信息都经过筛选，让查找更从容。
+            </p>
+            <span class="tagline">📋 整理 · 对照 · 延伸</span>
+        </div>
+
+        <!-- 用途卡片三列：日常查询 / 对照 / 延伸阅读 -->
+        <div class="purpose-grid">
+            <div class="purpose-card">
+                <span class="card-icon">🔍</span>
+                <h3>日常查询</h3>
+                <p>快速检索常见问题、分类信息与操作指引，省去反复翻找的麻烦。无论是赛事时间、频道动态还是基础设置，都能在这里找到。</p>
+            </div>
+            <div class="purpose-card">
+                <span class="card-icon">📑</span>
+                <h3>对照参考</h3>
+                <p>不同来源、不同版本的信息并列呈现，方便横向对比。页面保留了原始结构，你可以一边阅读一边核对细节。</p>
+            </div>
+            <div class="purpose-card">
+                <span class="card-icon">🔗</span>
+                <h3>延伸阅读</h3>
+                <p>沿着主题链接跳转到更完整的说明页，或在相关卡片之间切换。每次延伸都基于当前上下文，不打断思考节奏。</p>
+            </div>
+        </div>
+
+        <!-- 适合人群（双栏） -->
+        <div class="audience-section">
+            <div class="audience-card">
+                <h3>适合这样的你</h3>
+                <ul>
+                    <li>想要快速定位某个功能或说明，不想在多层菜单里绕路</li>
+                    <li>习惯把常用页面当作参考手册，随时打开对照</li>
+                    <li>对信息准确性有要求，希望看到经过整理的客观内容</li>
+                    <li>偶尔需要把不同页面的要点放在一起比较</li>
+                </ul>
+            </div>
+            <div class="audience-card">
+                <h3>也适合这样的场景</h3>
+                <ul>
+                    <li>在电脑前查阅资料，同时打开参考页做笔记</li>
+                    <li>帮朋友或家人查找操作步骤，需要清晰的口述依据</li>
+                    <li>写文章或做汇总时，引用可查证的原始说明</li>
+                    <li>碎片时间浏览，了解平台有哪些功能和更新</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 自然链接段落（卡片式） -->
+        <div class="link-paragraph-card">
+            <p>
+                这份卡片页以「日常查询、对照、延伸」为线索，聚合了
+                <a href="https://index-portal-yuyan.com">雨燕直播</a>
+                中多次被问到的基础信息与分类指南。你可以把它当作一个轻量的信息索引，
+                按需取用，也可作为跳转至详细页面的中间站。所有内容均来自公开可查的资料，
+                经过格式整理与章节划分，方便快速定位。
+            </p>
+            <p style="margin-top: 0.8rem;">
+                如果你在查找某个具体功能或条款，建议先浏览上方卡片，
+                再通过<a href="https://index-portal-yuyan.com">雨燕直播</a>中的完整目录做精确检索。
+                这样既保留了卡片页的概览效率，又不丢失原始页面的深度。
+            </p>
+        </div>
+
+        <!-- 提示 / FAQ 摘要 -->
+        <div class="tips-faq">
+            <h3>📌 常见疑问摘要</h3>
+            <div class="faq-item">
+                <div class="q">· 如何快速找到某个分类下的内容？</div>
+                <div class="a">使用页面上方的用途卡片筛选范围，或者直接前往 <a href="https://index-portal-yuyan.com">雨燕直播</a> 使用搜索功能。</div>
+            </div>
+            <div class="faq-item">
+                <div class="q">· 这些卡片会定期更新吗？</div>
+                <div class="a">内容会跟随主站做阶段核对，若有明显变动会同步调整。你也可以在<a href="https://index-portal-yuyan.com">雨燕直播</a>中查看最新版本。</div>
+            </div>
+            <div class="faq-item">
+                <div class="q">· 卡片页适合打印或离线阅读吗？</div>
+                <div class="a">可以。页面采用白底卡片与清晰字号，打印时保留主要结构和链接，适合作为参考摘要。</div>
+            </div>
+        </div>
+
+        <!-- 极简 footer -->
+        <div class="footer-note">
+            <span>整理版 · 信息卡片 · 日常对照</span>
+        </div>
+    </div>
+</body>
+</html>
